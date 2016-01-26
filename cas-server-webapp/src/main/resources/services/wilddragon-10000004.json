@@ -1,0 +1,7 @@
+{
+  "@class" : "org.jasig.cas.services.RegexRegisteredService",
+  "serviceId" : "^http://192.168.1.14:9000/.*",
+  "name" : "wilddragon",
+  "id" : 10000004,
+  "description" : "wilddragon service"
+}
