@@ -143,8 +143,50 @@
     Bean that defines the attributes that a service may return.  This example uses the Stub/Mock version.  A real implementation
     may go against a database or LDAP server.  The id should remain "attributeRepository" though.
     +-->
-    <bean id="attributeRepository" class="org.jasig.services.persondir.support.NamedStubPersonAttributeDao"
+    <!--<bean id="attributeRepository" class="org.jasig.services.persondir.support.NamedStubPersonAttributeDao"
           p:backingMap-ref="attrRepoBackingMap" />
+
+    <util:map id="attrRepoBackingMap">
+        <entry key="uid" value="uid" />
+        <entry key="eduPersonAffiliation" value="eduPersonAffiliation" />
+        <entry key="groupMembership" value="groupMembership" />
+        <entry>
+            <key><value>memberOf</value></key>
+            <list>
+                <value>faculty</value>
+                <value>staff</value>
+                <value>org</value>
+            </list>
+        </entry>
+    </util:map>-->
+
+    <bean id="attributeRepository"
+          class="org.jasig.cas.ani.AniAccountAttributeDao">
+        <constructor-arg index="0" ref="dataSource" />
+        <property name="accountTableName" value="t_account" />
+        <property name="emailFieldName" value="email"/>
+        <property name="screenFieldName" value="screenName" />
+        <property name="backingMap" ref="attrRepoBackingMap"/>
+    </bean>
+    <!--<bean id="attributeRepository"
+          class="org.jasig.services.persondir.support.jdbc.SingleRowJdbcPersonAttributeDao">
+        <constructor-arg index="0" ref="dataSource" />
+        <constructor-arg index="1" value="SELECT accountId, screenName , email FROM t_account where {0}" />
+        <property name="queryAttributeMapping">
+            <map>
+                <entry key="username" value="screenName" />
+                <entry key="username" value="email" />
+            </map>
+        </property>
+        <property name="queryType" value="OR"/>
+        <property name="resultAttributeMapping">
+            <map>
+                <entry key="accountid" value="accountid" />
+                <entry key="email" value="email" />
+                <entry key="screenname" value="username" />
+            </map>
+        </property>
+    </bean>-->
 
     <util:map id="attrRepoBackingMap">
         <entry key="uid" value="uid" />
