@@ -1,6 +1,6 @@
 {
   "@class" : "org.jasig.cas.services.RegexRegisteredService",
-  "serviceId" : "^http://cn-bj-yatsen.anicel.cn:8081/cas-client-app/",
+  "serviceId" : "^http://bj-yatsen.anicel.cn:8080/cas-client-app/",
   "name" : "Cas Client Sample",
   "id" : 10000003,
   "description" : "cas-client-app sample service"
