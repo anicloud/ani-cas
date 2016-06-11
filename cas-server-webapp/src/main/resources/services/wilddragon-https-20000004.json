@@ -1,0 +1,7 @@
+{
+  "@class" : "org.jasig.cas.services.RegexRegisteredService",
+  "serviceId" : "^https://anicloud.cn:9443/.*",
+  "name" : "wilddragon",
+  "id" : 20000004,
+  "description" : "wilddragon service"
+}
