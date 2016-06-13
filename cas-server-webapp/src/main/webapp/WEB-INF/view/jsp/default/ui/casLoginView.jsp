@@ -1,4 +1,5 @@
-<%--
+<%@ page import="java.io.BufferedReader" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %><%--
 
     Licensed to Apereo under one or more contributor license
     agreements. See the NOTICE file distributed with this work
@@ -18,6 +19,19 @@
     under the License.
 
 --%>
+
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%
+    String action = request.getParameter("action");
+    if (StringUtils.equals(action, "get-lt")) {
+        String cb = request.getParameter("callback");
+        String jsonData = "{\"lt\":\"" + request.getAttribute("loginTicket") + "\", \"execution\":\"" + request.getAttribute("flowExecutionKey") + "\"}";
+        String jsonp = cb + "(" + jsonData + ")";
+        response.setContentType("application/javascript");
+        response.getWriter().write(jsonp);
+    } else {
+%>
+
 <jsp:directive.include file="includes/top.jsp" />
 
 <c:if test="${not pageContext.request.secure}">
@@ -201,3 +215,7 @@
 </div>
 
 <jsp:directive.include file="includes/bottom.jsp" />
+
+<%
+    }
+%>

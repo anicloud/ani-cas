@@ -308,6 +308,8 @@
 
   <bean id="authenticationExceptionHandler" class="org.jasig.cas.web.flow.AuthenticationExceptionHandler" />
 
+  <bean id="customAuthenticationExceptionHandler" class="org.jasig.cas.web.flow.CustomAuthenticationExceptionHandler" />
+
   <bean id="generateServiceTicketAction" class="org.jasig.cas.web.flow.GenerateServiceTicketAction"
         p:centralAuthenticationService-ref="centralAuthenticationService"/>
 
