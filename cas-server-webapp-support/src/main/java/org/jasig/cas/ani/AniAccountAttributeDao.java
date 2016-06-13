@@ -36,7 +36,6 @@ import java.util.Map;
  */
 public class AniAccountAttributeDao extends StubPersonAttributeDao {
 
-
     private String accountTableName;
     private String emailFieldName = "email";
     private String screenFieldName = "screenName";

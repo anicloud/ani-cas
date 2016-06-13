@@ -21,10 +21,10 @@ package org.jasig.cas.adaptors.jdbc;
 import org.jasig.cas.authentication.HandlerResult;
 import org.jasig.cas.authentication.PreventedException;
 import org.jasig.cas.authentication.UsernamePasswordCredential;
-import org.jasig.cas.authentication.handler.BCryptPasswordEncoder;
-import org.jasig.cas.authentication.handler.IBCryptPasswordEncoder;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.security.auth.login.AccountNotFoundException;
 import javax.security.auth.login.FailedLoginException;
@@ -42,6 +42,7 @@ public class AniQueryDatabaseAuthenticationHandler extends AbstractJdbcUsernameP
     @NotNull
     private String sql = " select password from t_account where (email = ? or screenName = ?) and enabled = 1 ";
     private int strength = 10;
+    final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(strength);
     /**
      * {@inheritDoc}
      */
@@ -51,7 +52,6 @@ public class AniQueryDatabaseAuthenticationHandler extends AbstractJdbcUsernameP
 
 
         final String username = credential.getUsername();
-        final IBCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(strength);
         try {
             final String dbPassword = getJdbcTemplate().queryForObject(
                     sql,
