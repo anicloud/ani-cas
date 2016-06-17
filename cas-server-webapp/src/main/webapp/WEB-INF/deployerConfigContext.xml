@@ -161,7 +161,7 @@
     </util:map>-->
 
     <bean id="attributeRepository"
-          class="org.jasig.cas.ani.AniAccountAttributeDao">
+          class="org.jasig.cas.anicel.account.CasAccountAttributeDao">
         <constructor-arg index="0" ref="dataSource" />
         <property name="accountTableName" value="t_account" />
         <property name="emailFieldName" value="email"/>

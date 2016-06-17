@@ -353,4 +353,30 @@
           p:successView="casSamlServiceSuccessView"
           p:failureView="casSamlServiceFailureView"/>
   -->
+  <!-- register webflow configuration -->
+  <bean id="registerFlowHandlerMapping" class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping"
+        p:flowRegistry-ref="registerFlowRegistry" p:order="4">
+      <property name="interceptors">
+          <array value-type="org.springframework.web.servlet.HandlerInterceptor">
+              <ref bean="localeChangeInterceptor" />
+          </array>
+      </property>
+  </bean>
+
+  <bean id="registerHandlerAdapter" class="org.jasig.cas.web.flow.SelectiveFlowHandlerAdapter"
+        p:supportedFlowId="register" p:flowExecutor-ref="registerFlowExecutor" p:flowUrlHandler-ref="registerFlowUrlHandler" />
+
+  <bean id="registerFlowUrlHandler" class="org.jasig.cas.web.flow.CasDefaultFlowUrlHandler"
+        p:flowExecutionKeyParameter="RelayState" />
+
+  <webflow:flow-executor id="registerFlowExecutor" flow-registry="registerFlowRegistry">
+    <webflow:flow-execution-attributes>
+      <webflow:always-redirect-on-pause value="false" />
+      <webflow:redirect-in-same-state value="false" />
+    </webflow:flow-execution-attributes>
+  </webflow:flow-executor>
+
+  <webflow:flow-registry id="registerFlowRegistry" flow-builder-services="builder" base-path="/WEB-INF/webflow">
+    <webflow:flow-location-pattern value="/register/*-webflow.xml"/>
+  </webflow:flow-registry>
 </beans>

@@ -551,7 +551,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <phase>compile</phase>
+                        <phase>site</phase>
                         <goals>
                             <goal>check</goal>
                         </goals>
