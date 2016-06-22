@@ -64,11 +64,11 @@
             <div>
                 <input type="submit" class="btn" id="submitBtn" value="登录">
             </div>
-            <div class="link">
-                <a href="<%=request.getContextPath()%>/register">
-                    还没有账号？前往注册
-                </a>
-            </div>
+            <%--<div class="link">--%>
+                <%--<a href="<%=request.getContextPath()%>/register">--%>
+                    <%--还没有账号？前往注册--%>
+                <%--</a>--%>
+            <%--</div>--%>
             <div>
                 <input type="hidden" name="lt" value="${loginTicket}" />
                 <input type="hidden" name="execution" value="${flowExecutionKey}" />
