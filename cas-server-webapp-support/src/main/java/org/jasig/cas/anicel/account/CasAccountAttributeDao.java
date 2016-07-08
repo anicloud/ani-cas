@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jasig.cas.ani;
+package org.jasig.cas.anicel.account;
 
 import org.jasig.services.persondir.IPersonAttributes;
 import org.jasig.services.persondir.support.AttributeNamedPersonImpl;
@@ -34,17 +34,18 @@ import java.util.Map;
  * @date 16-3-11
  * @since JDK 1.7
  */
-public class AniAccountAttributeDao extends StubPersonAttributeDao {
+public class CasAccountAttributeDao extends StubPersonAttributeDao {
+
 
     private String accountTableName;
     private String emailFieldName = "email";
     private String screenFieldName = "screenName";
     private DataSource dataSource;
 
-    public AniAccountAttributeDao() {
+    public CasAccountAttributeDao() {
     }
 
-    public AniAccountAttributeDao(DataSource dataSource) {
+    public CasAccountAttributeDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 

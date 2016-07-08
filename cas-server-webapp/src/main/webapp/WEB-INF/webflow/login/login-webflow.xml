@@ -108,7 +108,7 @@
         -->
         <transition on="success" to="sendTicketGrantingTicket"/>
         <transition on="successWithWarnings" to="showMessages"/>
-        <transition on="authenticationFailure" to="handleAuthenticationFailureCustom"/>
+        <transition on="authenticationFailure" to="handleAuthenticationFailure"/>
         <transition on="error" to="generateLoginTicket"/>
     </action-state>
 

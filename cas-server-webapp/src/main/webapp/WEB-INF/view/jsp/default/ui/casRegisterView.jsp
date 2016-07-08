@@ -52,27 +52,26 @@
         从这里开始, 连接世界
     </div>
     <div class="login-panel">
-        <form id="loginForm" method="POST" action="/cas/login">
+        <form id="registerForm" method="POST" action="/register">
             <div class="row-input">
                 <span><i class="fa fa-user" aria-hidden="true"></i></span>
-                <span><input type="text" name="username" id="username" placeholder="用户名/邮箱/手机号"></span>
+                <span><input type="text" name="username" id="username" placeholder="用户名（字母、下划线和数字）"></span>
+            </div>
+            <div class="row-input">
+                <span><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                <span><input type="text" name="username" id="email" placeholder="邮箱"></span>
             </div>
             <div class="row-input">
                 <span><i class="fa fa-lock" aria-hidden="true"></i></span>
-                <span><input type="password" name="password" id="password" placeholder="密码"></span>
+                <span><input type="password" name="password" id="password" placeholder="密码（不少于6位）"></span>
             </div>
             <div>
-                <input type="submit" class="btn" id="submitBtn" value="登录">
+                <input type="button" class="btn" id="submitBtn" value="注册账号">
             </div>
-            <%--<div class="link">--%>
-                <%--<a href="<%=request.getContextPath()%>/register">--%>
-                    <%--还没有账号？前往注册--%>
-                <%--</a>--%>
-            <%--</div>--%>
-            <div>
-                <input type="hidden" name="lt" value="${loginTicket}" />
-                <input type="hidden" name="execution" value="${flowExecutionKey}" />
-                <input type="hidden" name="_eventId" value="submit" />
+            <div class="link">
+                <a href="<%=request.getContextPath()%>/cas/login">
+                    已有账号？直接登录
+                </a>
             </div>
         </form>
     </div>
