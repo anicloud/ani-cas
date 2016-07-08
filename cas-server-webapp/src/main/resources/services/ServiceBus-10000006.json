@@ -1,0 +1,7 @@
+{
+  "@class" : "org.jasig.cas.services.RegexRegisteredService",
+  "serviceId" : "^http://bj-yatsen.anicel.cn:8080/service-bus/.*",
+  "name" : "service-bus server",
+  "id" : 10000006,
+  "description" : "service-bus sample service"
+}
