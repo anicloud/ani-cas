@@ -1,6 +1,6 @@
 {
   "@class" : "org.jasig.cas.services.RegexRegisteredService",
-  "serviceId" : "^http://locahost:8081/service-bus/.*",
+  "serviceId" : "^http://localhost:8081/service-bus/.*",
   "name" : "service-bus server",
   "id" : 10000007,
   "description" : "service-bus sample service"
