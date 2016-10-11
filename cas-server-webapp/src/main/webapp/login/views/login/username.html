@@ -1,0 +1,24 @@
+<div class="login-wrapper">
+    <div class="login-notice">请输入您的帐号</div>
+    <div class="content panel panel-default">
+        <form role="form">
+            <div class="form-group">
+                <input type="text" class="form-control" ng-class="{'has-error':usernameError}" ng-model="Data.username" placeholder="输入您的手机号码/邮箱">
+            </div>
+            <div class="form-group error-info"  ng-show="usernameError">
+                我们没有找到您的帐号，请确认后再试一次
+            </div>
+            <div class="form-group error-info" ng-show="usernamePattern">
+                请输入正确格式的手机号码/邮箱格式
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-success button-modify"
+                ng-click="usernameCheck()">下一步</button>
+            </div>
+            <div id="toRegister">
+                <a  href="http://s0.drtt.bj.anicel.cn:8080/earth-web/service/register">没有帐号？点击注册</a>
+            </div>
+
+        </form>
+    </div>
+</div>
