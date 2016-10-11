@@ -40,7 +40,7 @@ import java.sql.Types;
 public class AniQueryDatabaseAuthenticationHandler extends AbstractJdbcUsernamePasswordAuthenticationHandler {
 
     @NotNull
-    private String sql = " select password from t_account where (email = ? or screenName = ?) and enabled = 1 ";
+    private String sql = " select password from t_account where (email = ? or account_phone_id = (SELECT id FROM t_account_phone where phoneNumber = ?)) and enabled = 1 ";
     private int strength = 10;
     final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(strength);
     /**
@@ -52,26 +52,28 @@ public class AniQueryDatabaseAuthenticationHandler extends AbstractJdbcUsernameP
 
 
         final String username = credential.getUsername();
-        try {
-            final String dbPassword = getJdbcTemplate().queryForObject(
-                    sql,
-                    new Object[]{credential.getUsername(), credential.getUsername()},
-                    new int[]{Types.VARCHAR, Types.VARCHAR},
-                    String.class
-            );
-            if (!passwordEncoder.matches(credential.getPassword(), dbPassword)) {
-                throw new FailedLoginException("Password does not match value on record.");
+        if(username.indexOf("@")>0) {
+            try {
+                final String dbPassword = getJdbcTemplate().queryForObject(
+                        sql,
+                        new Object[]{credential.getUsername(), credential.getUsername()},
+                        new int[]{Types.VARCHAR, Types.VARCHAR},
+                        String.class
+                );
+                if (!passwordEncoder.matches(credential.getPassword(), dbPassword)) {
+                    throw new FailedLoginException("Password does not match value on record.");
+                }
+            } catch (final IncorrectResultSizeDataAccessException e) {
+                if (e.getActualSize() == 0) {
+                    throw new AccountNotFoundException(username + " not found with SQL query");
+                } else {
+                    throw new FailedLoginException("Multiple records found for " + username);
+                }
+            } catch (final DataAccessException e) {
+                throw new PreventedException("SQL exception while executing query for " + username, e);
             }
-        } catch (final IncorrectResultSizeDataAccessException e) {
-            if (e.getActualSize() == 0) {
-                throw new AccountNotFoundException(username + " not found with SQL query");
-            } else {
-                throw new FailedLoginException("Multiple records found for " + username);
-            }
-        } catch (final DataAccessException e) {
-            throw new PreventedException("SQL exception while executing query for " + username, e);
         }
-        return createHandlerResult(credential, this.principalFactory.createPrincipal(username), null);
+            return createHandlerResult(credential, this.principalFactory.createPrincipal(username), null);
     }
 
     /**

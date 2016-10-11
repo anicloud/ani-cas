@@ -115,7 +115,7 @@
     <!-- define datasource -->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-        <property name="jdbcUrl" value="jdbc:mysql://bj-yatsen.anicel.cn:3306/ani-octopus?useUnicode=true&amp;characterEncoding=UTF-8"/>
+        <property name="jdbcUrl" value="jdbc:mysql://s0.drtt.bj.anicel.cn:3306/ani_earth?useUnicode=true&amp;characterEncoding=UTF-8"/>
         <property name="user" value="work"/>
         <property name="password" value="work"/>
     </bean>
@@ -123,7 +123,7 @@
     <bean id="queryDatabaseAuthenticationHandler"
           class="org.jasig.cas.adaptors.jdbc.AniQueryDatabaseAuthenticationHandler"
           p:dataSource-ref="dataSource"
-          p:sql=" select password from t_account where (email = ? or screenName = ?) and enabled = 1 "
+          p:sql=" select password from t_account where (email = ? or account_phone_id = (SELECT id FROM t_account_phone where phoneNumber = ?)) and enabled = 1 "
           p:strength="10" />
 
     <!-- Required for proxy ticket mechanism -->
@@ -164,8 +164,9 @@
           class="org.jasig.cas.anicel.account.CasAccountAttributeDao">
         <constructor-arg index="0" ref="dataSource" />
         <property name="accountTableName" value="t_account" />
+        <property name="accountPhoneTableName" value="t_account_phone" />
         <property name="emailFieldName" value="email"/>
-        <property name="screenFieldName" value="screenName" />
+        <property name="phoneFieldName" value="phoneNumber" />
         <property name="backingMap" ref="attrRepoBackingMap"/>
     </bean>
     <!--<bean id="attributeRepository"

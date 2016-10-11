@@ -38,8 +38,10 @@ public class CasAccountAttributeDao extends StubPersonAttributeDao {
 
 
     private String accountTableName;
+    private String accountPhoneTableName;
     private String emailFieldName = "email";
     private String screenFieldName = "screenName";
+    private String phoneFieldName = "phoneNumber";
     private DataSource dataSource;
 
     public CasAccountAttributeDao() {
@@ -81,19 +83,27 @@ public class CasAccountAttributeDao extends StubPersonAttributeDao {
         this.accountTableName = accountTableName;
     }
 
+    public String getAccountPhoneTableName() {return accountPhoneTableName;}
+
+    public void setAccountPhoneTableName(String accountPhoneTableName) {this.accountPhoneTableName = accountPhoneTableName;}
+
+    public String getPhoneFieldName() {return phoneFieldName;}
+
+    public void setPhoneFieldName(String phoneFieldName) {this.phoneFieldName = phoneFieldName;}
+
     @Override
     public IPersonAttributes getPerson(String uid) {
         String sql = "";
         if (uid.indexOf("@") > 0) {
             sql = " select * from " + accountTableName + " where " + emailFieldName + "=?";
         } else {
-            sql = " select * from " + accountTableName + " where " + screenFieldName + "=?";
+            sql = " select * from " + accountPhoneTableName + " where " + phoneFieldName + "=?";
         }
 
         final Map<String, Object> values = new JdbcTemplate(dataSource).queryForMap(sql, uid);
         Map<String, List<Object>> attributes = new HashMap<String, List<Object>>();
-        attributes.put("username",
-                Collections.singletonList((Object) values.get("screenName")));
+        attributes.put("phoneNumber",
+                Collections.singletonList((Object) values.get("phoneNumber")));
         attributes.put("email",
                 Collections.singletonList((Object) values.get("email")));
         attributes.put("accountId",

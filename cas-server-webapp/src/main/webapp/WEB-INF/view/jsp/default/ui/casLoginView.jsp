@@ -26,57 +26,39 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
-<html lang="zh_CN">
+<html lang="zh_CN" ng-app="app">
 <head>
-    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Anicloud</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <link rel="icon" href="<c:url value="/ani_logo.png" />" type="image/x-icon" />
-    <link rel="stylesheet" href="component/font-awesome/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="css/layout.css">
-    <link rel="stylesheet" href="css/login.css">
-
-    <script src="component/jquery/jquery.min.js"></script>
-    <script src="js/login.js"></script>
-
+    <link rel="stylesheet" href="login/src/bootstrap.css" />
+    <link rel="stylesheet" href="login/views/login/login.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/login/images/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<div class="login-wrapper">
-    <div class="logo">
-        <img src="images/logo.png">
-    </div>
-    <div class="title">
-        从这里开始, 连接世界
-    </div>
-    <div class="login-panel">
-        <form id="loginForm" method="POST" action="/cas/login">
-            <div class="row-input">
-                <span><i class="fa fa-user" aria-hidden="true"></i></span>
-                <span><input type="text" name="username" id="username" placeholder="用户名/邮箱/手机号"></span>
-            </div>
-            <div class="row-input">
-                <span><i class="fa fa-lock" aria-hidden="true"></i></span>
-                <span><input type="password" name="password" id="password" placeholder="密码"></span>
-            </div>
-            <div>
-                <input type="submit" class="btn" id="submitBtn" value="登录">
-            </div>
-            <%--<div class="link">--%>
-                <%--<a href="<%=request.getContextPath()%>/register">--%>
-                    <%--还没有账号？前往注册--%>
-                <%--</a>--%>
-            <%--</div>--%>
-            <div>
-                <input type="hidden" name="lt" value="${loginTicket}" />
-                <input type="hidden" name="execution" value="${flowExecutionKey}" />
-                <input type="hidden" name="_eventId" value="submit" />
-            </div>
-        </form>
-    </div>
+<div class="" data-ui-view=""></div>
+<div ng-controller="tokenctrl">
+    <input type="hidden" name="lt" value="${loginTicket}" id="lt"/>
+    <input type="hidden" name="execution" value="${flowExecutionKey}" id="execution"/>
 </div>
-
 </body>
+<script src="login/src/jquery.js"></script>
+<script src="login/src/angular.js"></script>
+<script src="login/src/angular-ui-router.js"></script>
+<script src="login/src/ui-bootstrap-tpls.js"></script>
+<script src="login/src/fastclick.js"></script>
+<script src="login/src/bootstrap.js"></script>
+<script src="login/src/angular-animate.js"></script>
+
+<script src="login/views/login/token.js"></script>
+<script src="login/views/login/login.js"></script>
+<script src="login/components/service/service.js"></script>
+<script src="login/components/service/dataContainer.js"></script>
+<script src="login/components/service/ajax.js"></script>
+<script src="login/views/view.js"></script>
+<script src="login/components/directive.js"></script>
+<script src="login/app.js"></script>
 </html>
