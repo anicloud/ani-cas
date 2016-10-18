@@ -9,7 +9,12 @@ angular.module('app.view.login', ['ui.router'])
                 abstract: true,
                 url: '/login',
                 templateUrl: 'login/views/login/login.html',
-                controller: 'loginCtrl'
+                controller: 'loginCtrl',
+                resolve:{
+                    initConfig:function(ConfigService){
+                        return ConfigService.initConfig();
+                    }
+                }
             })
             .state('login.username', {
                 url: '/username',
@@ -29,6 +34,10 @@ angular.module('app.view.login', ['ui.router'])
     }else{
         DataContainer.searchPara='';
     }
+    ConfigService.configObject.earthPath=$.i18n.prop('earth_service');
+    ConfigService.configObject.casPath=$.i18n.prop('cas_service');
+    ConfigService.configObject.staticPath='';
+    console.log(ConfigService.configObject);
     console.log(DataContainer.searchPara);
 }).controller('usernameCtrl', function ($scope, AjaxService, DataContainer, $state,$timeout) {
     $scope.Data = DataContainer;
@@ -50,7 +59,7 @@ angular.module('app.view.login', ['ui.router'])
             }
         }
         //remove for test
-       $scope.emailPass = $scope.Data.username.match(/^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/);
+       $scope.emailPass = $scope.Data.username.match(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})$/);
        $scope.phoneNumberPass = $scope.Data.username.match(/^1(3[0-9]|4[57]|5[0-35-9]|7[01678]|8[0-9])\d{8}$/);
        if ($scope.emailPass) AjaxService.checkEmail($scope.Data.username).then(callback);
        else if ($scope.phoneNumberPass) {
@@ -58,7 +67,8 @@ angular.module('app.view.login', ['ui.router'])
        }
        else{$scope.usernamePattern=true;}
     }
-}).controller('passwordCtrl', function ($scope,DataContainer,$state,AjaxService,$interval) {
+}).controller('passwordCtrl', function ($scope,DataContainer,$state,AjaxService,$interval,ConfigService) {
+    $scope.ConfigService=ConfigService;
     $scope.Data = DataContainer;
     if($scope.Data.username==='') $state.go('login.username');
     $scope.sendBtn="点击发送验证码";

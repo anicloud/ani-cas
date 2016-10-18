@@ -4,5 +4,7 @@
 'use strict';
 angular.module('app.service', [
     'app.service.ajax',
-    'app.service.dataContainer'
+    'app.service.dataContainer',
+    'app.service.config'
 ]);
+
