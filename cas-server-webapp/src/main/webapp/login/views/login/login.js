@@ -68,7 +68,9 @@ angular.module('app.view.login', ['ui.router'])
        }
        else{$scope.usernamePattern=true;}
     }
-}).controller('passwordCtrl', function ($scope,DataContainer,$state,AjaxService,$interval) {
+}).controller('passwordCtrl', function ($scope,DataContainer,$state,AjaxService,$interval,$sce,ConfigService) {
+    $scope.sceControl=$sce.trustAsUrl;
+    $scope.ConfigService=ConfigService;
     $scope.Data = DataContainer;
     if($scope.Data.username==='') $state.go('login.username');
     $scope.sendBtn="点击发送验证码";
@@ -80,10 +82,10 @@ angular.module('app.view.login', ['ui.router'])
         $scope.checkBtnDisAbled=true;
         AjaxService.sendPin($scope.Data.username).then(function (res) {
             if(res.data){
-                var count=5;
+                var count=60;
                 var timer=$interval(function () {
                     $scope.sendBtn="重新发送("+count--+')';
-                },1000,5);
+                },1000,60);
                 timer.then(function () {
                     $scope.sendBtn='点击发送验证码';
                     $scope.checkBtnDisAbled=false;

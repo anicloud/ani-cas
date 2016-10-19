@@ -18,8 +18,10 @@ angular.module('app.service.config',[])
                 return null;
             },
             configObject:{
-                casPath:'https://bj-yatsen.anicel.cn:8443/cas',
-                earthPath:'https://bj-yatsen.anicel.cn:8443/earth-web/service'
+                // casPath:'https://bj-yatsen.anicel.cn:8443/cas',
+                // earthPath:'https://bj-yatsen.anicel.cn:8443/earth-web/service',
+                casPath:'https://s0.drtt.bjanicel.cn:8443/cas',
+                earthPath:'https://s0.drtt.bj.anicel.cn:8443/earth-web/service'
             }
         }
     });
