@@ -10,11 +10,11 @@ angular.module('app.view.login', ['ui.router'])
                 url: '/login',
                 templateUrl: 'login/views/login/login.html',
                 controller: 'loginCtrl',
-                resolve:{
-                    initConfig:function(ConfigService){
-                        return ConfigService.initConfig();
-                    }
-                }
+                // resolve:{
+                //     initConfig:function(ConfigService){
+                //         return ConfigService.initConfig();
+                //     }
+                // }
             })
             .state('login.username', {
                 url: '/username',
@@ -34,12 +34,13 @@ angular.module('app.view.login', ['ui.router'])
     }else{
         DataContainer.searchPara='';
     }
-    ConfigService.configObject.earthPath=$.i18n.prop('earth_service');
-    ConfigService.configObject.casPath=$.i18n.prop('cas_service');
-    ConfigService.configObject.staticPath='';
-    console.log(ConfigService.configObject);
+    // ConfigService.configObject.earthPath=$.i18n.prop('earth_service');
+    // ConfigService.configObject.casPath=$.i18n.prop('cas_service');
+    // ConfigService.configObject.staticPath='';
+    //console.log(ConfigService.configObject);
     console.log(DataContainer.searchPara);
-}).controller('usernameCtrl', function ($scope, AjaxService, DataContainer, $state,$timeout) {
+}).controller('usernameCtrl', function ($scope, AjaxService, DataContainer, $state,$timeout,ConfigService) {
+    $scope.ConfigService=ConfigService;
     $scope.Data = DataContainer;
     function init() {
         $scope.usernameError = false;

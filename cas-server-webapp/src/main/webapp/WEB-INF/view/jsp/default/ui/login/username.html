@@ -7,6 +7,7 @@
             </div>
             <div class="form-group error-info"  ng-show="usernameError">
                 我们没有找到您的帐号，请确认后再试一次
+                没有帐号？<a href="">点击这里</a>注册
             </div>
             <div class="form-group error-info" ng-show="usernamePattern">
                 请输入正确格式的手机号码/邮箱格式
@@ -15,10 +16,6 @@
                 <button type="button" class="btn btn-success button-modify"
                 ng-click="usernameCheck()">下一步</button>
             </div>
-            <div id="toRegister">
-                <a  href={{ConfigService.configObject.earthPath}}+"/register">没有帐号？点击注册</a>
-            </div>
-
         </form>
     </div>
 </div>

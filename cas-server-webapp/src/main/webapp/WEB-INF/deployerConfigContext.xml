@@ -115,9 +115,9 @@
     <!-- define datasource -->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-        <property name="jdbcUrl" value="jdbc:mysql://s0.drtt.bj.anicel.cn:3306/ani_earth?useUnicode=true&amp;characterEncoding=UTF-8"/>
-        <property name="user" value="work"/>
-        <property name="password" value="work"/>
+        <property name="jdbcUrl" value="jdbc:mysql://rdsp1t16146w99vl6519.mysql.rds.aliyuncs.com:3306/ani_earth?useUnicode=true&amp;characterEncoding=UTF-8"/>
+        <property name="user" value="anicloud"/>
+        <property name="password" value="Anicl0ud"/>
     </bean>
 
     <bean id="queryDatabaseAuthenticationHandler"
