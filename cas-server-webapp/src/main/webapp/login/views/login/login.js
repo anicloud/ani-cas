@@ -67,8 +67,7 @@ angular.module('app.view.login', ['ui.router'])
        }
        else{$scope.usernamePattern=true;}
     }
-}).controller('passwordCtrl', function ($scope,DataContainer,$state,AjaxService,$interval,ConfigService) {
-    $scope.ConfigService=ConfigService;
+}).controller('passwordCtrl', function ($scope,DataContainer,$state,AjaxService,$interval) {
     $scope.Data = DataContainer;
     if($scope.Data.username==='') $state.go('login.username');
     $scope.sendBtn="点击发送验证码";
