@@ -33,7 +33,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <link rel="stylesheet" href="login/src/bootstrap.min.css" />
+    <link rel="stylesheet" href="login/src/bootstrap.css" />
     <link rel="stylesheet" href="login/views/login/login.css">
     <link rel="shortcut icon" type="image/x-icon" href="/login/images/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,19 +45,20 @@
     <input type="hidden" name="execution" value="${flowExecutionKey}" id="execution"/>
 </div>
 </body>
-<script src="login/src/jquery.min.js"></script>
-<script src="login/src/angular.min.js"></script>
-<script src="login/src/angular-ui-router.min.js"></script>
-<script src="login/src/ui-bootstrap-tpls.min.js"></script>
+<script src="login/src/jquery.js"></script>
+<script src="login/src/angular.js"></script>
+<script src="login/src/angular-ui-router.js"></script>
+<script src="login/src/ui-bootstrap-tpls.js"></script>
 <script src="login/src/fastclick.js"></script>
-<script src="login/src/bootstrap.min.js"></script>
-<script src="login/src/angular-animate.min.js"></script>
+<script src="login/src/bootstrap.js"></script>
+<script src="login/src/angular-animate.js"></script>
 
 <script src="login/views/login/token.js"></script>
 <script src="login/views/login/login.js"></script>
 <script src="login/components/service/service.js"></script>
 <script src="login/components/service/dataContainer.js"></script>
 <script src="login/components/service/ajax.js"></script>
+<script src="login/components/service/config.js"></script>
 <script src="login/views/view.js"></script>
 <script src="login/components/directive.js"></script>
 <script src="login/app.js"></script>

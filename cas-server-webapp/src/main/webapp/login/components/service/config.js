@@ -4,7 +4,6 @@
 'use strict';
 angular.module('app.service.config',[])
     .factory('ConfigService',function () {
-        var configObject={};
         return{
             initConfig:function () {
                 console.log($.i18n);
@@ -18,6 +17,9 @@ angular.module('app.service.config',[])
                 });
                 return null;
             },
-            configObject:configObject
+            configObject:{
+                casPath:'https://bj-yatsen.anicel.cn:8443/cas',
+                earthPath:'https://bj-yatsen.anicel.cn:8443/earth-web/service'
+            }
         }
     });
