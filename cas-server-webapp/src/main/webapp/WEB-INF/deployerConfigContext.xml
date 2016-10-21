@@ -36,11 +36,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:amq="http://activemq.apache.org/schema/core"
        xmlns:c="http://www.springframework.org/schema/c"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:util="http://www.springframework.org/schema/util"
        xmlns:sec="http://www.springframework.org/schema/security"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       xsi:schemaLocation="http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
@@ -112,7 +114,7 @@
         </property>
     </bean>-->
 
-    <!-- define datasource -->
+    <!-- define datasource
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
         <property name="jdbcUrl" value="jdbc:mysql://s0.drtt.bj.anicel.cn:3306/ani_earth?useUnicode=true&amp;characterEncoding=UTF-8"/>
@@ -124,7 +126,7 @@
           class="org.jasig.cas.adaptors.jdbc.AniQueryDatabaseAuthenticationHandler"
           p:dataSource-ref="dataSource"
           p:sql=" select password from t_account where (email = ? or account_phone_id = (SELECT id FROM t_account_phone where phoneNumber = ?)) and enabled = 1 "
-          p:strength="10" />
+          p:strength="10" />-->
 
     <!-- Required for proxy ticket mechanism -->
     <bean id="proxyPrincipalResolver"
@@ -138,6 +140,44 @@
           class="org.jasig.cas.authentication.principal.PersonDirectoryPrincipalResolver"
           p:principalFactory-ref="principalFactory"
           p:attributeRepository-ref="attributeRepository" />
+
+    <!--jms factory-->
+    <amq:connectionFactory id="accountServiceConnectionFactory"
+                           brokerURL="tcp://${earth.jms.broker.url}:${earth.jms.broker.port}"/>
+    <bean id="userCredentialsConnectionFactoryAdapter"
+          class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
+        <property name="targetConnectionFactory" ref="accountServiceConnectionFactory"/>
+        <!--<property name="username" value="${mq.username}"/>-->
+    </bean>
+    <bean id="accountCacheServiceJmsConnectionFactory"
+          class="org.springframework.jms.connection.CachingConnectionFactory">
+        <property name="targetConnectionFactory" ref="userCredentialsConnectionFactoryAdapter"/>
+        <property name="sessionCacheSize" value="10"/>
+        <!--<property name="exceptionListener" ref="jmsExceptionListener"/>-->
+    </bean>
+
+    <bean id="accountServiceFacade" class="org.springframework.jms.remoting.JmsInvokerProxyFactoryBean">
+        <property name="connectionFactory"
+                  ref="accountCacheServiceJmsConnectionFactory"/>
+        <property name="queueName" value="${earth.jms.queue.service.octopus}.AccountServiceFacade"/>
+        <property name="serviceInterface" value="com.ani.earth.interfaces.AccountServiceFacade"/>
+    </bean>
+
+    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"
+          c:_0="10"
+    />
+
+    <bean id="queryDatabaseAuthenticationHandler"
+          class="org.jasig.cas.adaptors.jdbc.AniRpcQueryDataBaseAuthenticationHandler"
+          p:accountServiceFacade-ref="accountServiceFacade"
+          p:passwordEncoder-ref="passwordEncoder"
+    />
+
+    <bean id="attributeRepository"
+          class="org.jasig.cas.ani.account.CasRpcAccountAttributeDao">
+        <property name="accountServiceFacade" ref="accountServiceFacade"/>
+        <property name="backingMap" ref="attrRepoBackingMap"/>
+    </bean>
 
     <!--
     Bean that defines the attributes that a service may return.  This example uses the Stub/Mock version.  A real implementation
@@ -160,7 +200,7 @@
         </entry>
     </util:map>-->
 
-    <bean id="attributeRepository"
+    <!--<bean id="attributeRepository"
           class="org.jasig.cas.anicel.account.CasAccountAttributeDao">
         <constructor-arg index="0" ref="dataSource" />
         <property name="accountTableName" value="t_account" />
@@ -168,7 +208,7 @@
         <property name="emailFieldName" value="email"/>
         <property name="phoneFieldName" value="phoneNumber" />
         <property name="backingMap" ref="attrRepoBackingMap"/>
-    </bean>
+    </bean>-->
     <!--<bean id="attributeRepository"
           class="org.jasig.services.persondir.support.jdbc.SingleRowJdbcPersonAttributeDao">
         <constructor-arg index="0" ref="dataSource" />
