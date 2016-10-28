@@ -19,7 +19,7 @@
 package org.jasig.cas.adaptors.jdbc;
 
 import com.ani.earth.commons.dto.AccountDto;
-import com.ani.earth.interfaces.AccountServiceFacade;
+import com.ani.octopus.antenna.core.service.account.AccountAccessService;
 import org.jasig.cas.authentication.HandlerResult;
 import org.jasig.cas.authentication.PreventedException;
 import org.jasig.cas.authentication.UsernamePasswordCredential;
@@ -42,26 +42,27 @@ import java.security.GeneralSecurityException;
  */
 public class AniRpcQueryDataBaseAuthenticationHandler extends AbstractUsernamePasswordAuthenticationHandler {
     private final static Logger LOG = LoggerFactory.getLogger(AniRpcQueryDataBaseAuthenticationHandler.class);
-    private AccountServiceFacade accountServiceFacade;
+    private AccountAccessService accountaccessService;
     private PasswordEncoder passwordEncoder = null;
 
     @Override
     protected HandlerResult authenticateUsernamePasswordInternal(UsernamePasswordCredential transformedCredential) throws GeneralSecurityException, PreventedException {
         LOG.info("call authenticateUsernamePasswordInternal, name is {}.", transformedCredential.getUsername());
-        if (accountServiceFacade == null || passwordEncoder == null) {
+        if (accountaccessService == null || passwordEncoder == null) {
             LOG.error("accountServiceFacade or passwordEncoder is null.");
            throw new NullPointerException("accountServiceFacade or passwordEncoder is null.");
         }
         AccountDto accountDto = null;
         if (PatternCheck.isEmail(transformedCredential.getUsername())) {
-            accountDto = accountServiceFacade.getByEmail(transformedCredential.getUsername());
+            accountDto = accountaccessService.getByEmail(transformedCredential.getUsername());
         }
         else if (PatternCheck.isMobile(transformedCredential.getUsername())) {
-            accountDto = accountServiceFacade.getByPhoneNumber(transformedCredential.getUsername());
+            accountDto = accountaccessService.getByPhoneNumber(transformedCredential.getUsername());
+            return createHandlerResult(transformedCredential, this.principalFactory.createPrincipal(transformedCredential.getUsername()), null);
         }
-        else {
-            accountDto = accountServiceFacade.getByScreenName(transformedCredential.getUsername());
-        }
+//        else {
+//            accountDto = accountaccessService.getByScreenName(transformedCredential.getUsername());
+//        }
         if (accountDto != null) {
             if (!passwordEncoder.matches(transformedCredential.getPassword(), accountDto.password)) {
                 LOG.info("Password does not match value on record.");
@@ -75,8 +76,8 @@ public class AniRpcQueryDataBaseAuthenticationHandler extends AbstractUsernamePa
         return createHandlerResult(transformedCredential, this.principalFactory.createPrincipal(transformedCredential.getUsername()), null);
     }
 
-    public void setAccountServiceFacade(AccountServiceFacade accountServiceFacade) {
-        this.accountServiceFacade = accountServiceFacade;
+    public void setAccountAccessService(AccountAccessService accountAccessService) {
+        this.accountaccessService = accountAccessService;
     }
 
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {

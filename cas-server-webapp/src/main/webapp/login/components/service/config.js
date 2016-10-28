@@ -18,10 +18,22 @@ angular.module('app.service.config',[])
                 return null;
             },
             configObject:{
-                // casPath:'https://bj-yatsen.anicel.cn:8443/cas',
-                // earthPath:'https://bj-yatsen.anicel.cn:8443/earth-web/service',
-                casPath:'https://s0.drtt.bjanicel.cn:8443/cas',
-                earthPath:'https://s0.drtt.bj.anicel.cn:8443/earth-web/service'
+
+                //casPath:'http://localhost:8082/cas/service',
+                //earthPath:'http://s0.drtt.bj.anicel.cn:8443/earth-web/service',
+                //submitPath:'http://localhost:8082/cas/login'
+
+                //casPath:'https://s0.drtt.bj.anicel.cn:8443/cas/service',
+                //earthPath:'https://s0.drtt.bj.anicel.cn:8443/earth-web/service',
+                //submitPath:'https://s0.drtt.bj.anicel.cn:8443/cas/login'
+
+                //casPath:'https://bj-yatsen.anicel.cn:8443/cas/service',
+                //earthPath:'https://bj-yatsen.anicel.cn:8443/earth-web/service',
+                //submitPath:'https://bj-yatsen.anicel.cn:8443/cas/login'
+
+                casPath:'https://account.anicloud.cn:8443/cas/service',
+                earthPath:'https://account.anicloud.cn:8443/earth-web/service',
+                submitPath:'https://account.anicloud.cn:8443/cas/login'
             }
         }
     });

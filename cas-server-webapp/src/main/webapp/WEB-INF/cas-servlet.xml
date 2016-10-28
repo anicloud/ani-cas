@@ -38,6 +38,7 @@
   | folder and find out the annotated beans and register it in Spring container.
   -->
   <context:component-scan base-package="org.jasig.cas" />
+  <context:component-scan base-package="com.ani.cas.web" />
   <context:annotation-config/>
 
   <!-- Scan CAS artifacts to mvc annotations, such as controllers.
@@ -117,6 +118,10 @@
         <!--
         <prop key="/samlValidate">samlValidateController</prop>
         -->
+        <prop key="/service/emailCheck">emailCheckController</prop>
+        <prop key="/service/phoneCheck">phoneCheckController</prop>
+        <prop key="/service/getPhoneValidateCode">getPhoneValidateCodeController</prop>
+        <prop key="/service/checkPhoneValidateCode">checkPhoneValidateCodeController</prop>
 
         <prop key="/p3/serviceValidate">v3ServiceValidateController</prop>
         <prop key="/p3/proxyValidate">v3ProxyValidateController</prop>
@@ -353,6 +358,12 @@
           p:successView="casSamlServiceSuccessView"
           p:failureView="casSamlServiceFailureView"/>
   -->
+
+  <bean id="emailCheckController" class="com.ani.cas.web.login.EmailCheckController"/>
+  <bean id="phoneCheckController" class="com.ani.cas.web.login.PhoneCheckController"/>
+  <bean id="getPhoneValidateCodeController" class="com.ani.cas.web.login.GetPhoneValidateCode"/>
+  <bean id="checkPhoneValidateCodeController" class="com.ani.cas.web.login.checkPhoneValidateCode"/>
+
   <!-- register webflow configuration -->
   <bean id="registerFlowHandlerMapping" class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping"
         p:flowRegistry-ref="registerFlowRegistry" p:order="4">

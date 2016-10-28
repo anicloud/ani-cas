@@ -30,8 +30,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.ani.earth</groupId>
-            <artifactId>earth-service</artifactId>
+            <groupId>com.ani.octopus.antenna</groupId>
+            <artifactId>octopus-antenna</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>

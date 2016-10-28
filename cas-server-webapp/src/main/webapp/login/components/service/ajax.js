@@ -11,27 +11,27 @@ config(function ($httpProvider) {
        checkEmail:function (email) {
            return $http({
                method:'GET',
-               url:ConfigService.configObject.earthPath+'/checkEmail?email='+email,
+               url:ConfigService.configObject.casPath+'/emailCheck?email='+email,
                withCredentials:true
            })
        },
        checkPhoneNumber:function (phone) {
            return $http({
                method:'GET',
-               url:ConfigService.configObject.earthPath+'/checkPhone?phone='+phone
+               url:ConfigService.configObject.casPath+'/phoneCheck?phone='+phone
            })
        },
        sendPin:function (phone) {
            return $http({
                method:'POST',
-               url:ConfigService.configObject.earthPath+'/sendPhoneValidateCode',
+               url:ConfigService.configObject.casPath+'/getPhoneValidateCode',
                data:$.param({telephoneNumber:phone})
            })
        },
        checkPin:function (phone,pin) {
            return $http({
                method:'POST',
-               url:ConfigService.configObject.earthPath+'/phoneCodeValidate',
+               url:ConfigService.configObject.casPath+'/checkPhoneValidateCode',
                data:$.param({
                    telephoneNumber:phone,
                    checkNum:pin

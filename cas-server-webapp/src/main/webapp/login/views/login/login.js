@@ -50,9 +50,10 @@ angular.module('app.view.login', ['ui.router'])
         init();
         function callback(res) {
             console.log(res);
-            var data = res.data;
-            if (!data) {
+            var data = res.data.status;
+            if (data==true) {
                 $scope.Data.loginMethod=$scope.emailPass?'email':'phoneNumber';
+                $scope.Data.avatar=res.data.avatarUrl||$scope.Data.avatar;
                 $state.go('login.password')
             }
             else {
@@ -72,6 +73,8 @@ angular.module('app.view.login', ['ui.router'])
     $scope.sceControl=$sce.trustAsUrl;
     $scope.ConfigService=ConfigService;
     $scope.Data = DataContainer;
+    $scope.submitPath=ConfigService.configObject.submitPath;
+    console.log($scope.submitPath);
     if($scope.Data.username==='') $state.go('login.username');
     $scope.sendBtn="点击发送验证码";
     $scope.back=function () {
@@ -81,7 +84,7 @@ angular.module('app.view.login', ['ui.router'])
     $scope.getCheckNumber=function () {
         $scope.checkBtnDisAbled=true;
         AjaxService.sendPin($scope.Data.username).then(function (res) {
-            if(res.data){
+            if(res.data.status==true){
                 var count=60;
                 var timer=$interval(function () {
                     $scope.sendBtn="重新发送("+count--+')';
@@ -122,7 +125,7 @@ angular.module('app.view.login', ['ui.router'])
             }
         }
         function setFlagPin(res) {
-            if(res.data==true){
+            if(res.data.status==true){
                 $scope.pinFlag=true;
                 $scope.passPnone=DataContainer.username;
                 // dataList={

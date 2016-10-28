@@ -157,6 +157,23 @@
 
     <servlet-mapping>
         <servlet-name>cas</servlet-name>
+        <url-pattern>/service/emailCheck</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>cas</servlet-name>
+        <url-pattern>/service/phoneCheck</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>cas</servlet-name>
+        <url-pattern>/service/getPhoneValidateCode</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>cas</servlet-name>
+        <url-pattern>/service/checkPhoneValidateCode</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>cas</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
 

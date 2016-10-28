@@ -35,8 +35,10 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:amq="http://activemq.apache.org/schema/core"
+       xmlns:jms="http://www.springframework.org/schema/jms"
        xmlns:c="http://www.springframework.org/schema/c"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:util="http://www.springframework.org/schema/util"
@@ -45,6 +47,10 @@
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.springframework.org/schema/jms
+       http://www.springframework.org/schema/jms/spring-jms-4.0.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <!--
@@ -142,26 +148,74 @@
           p:attributeRepository-ref="attributeRepository" />
 
     <!--jms factory-->
-    <amq:connectionFactory id="accountServiceConnectionFactory"
-                           brokerURL="tcp://${earth.jms.broker.url}:${earth.jms.broker.port}"/>
-    <bean id="userCredentialsConnectionFactoryAdapter"
+    <amq:connectionFactory id="antennaServiceConnectionFactory"
+                           brokerURL="tcp://${antenna.jms.broker.url}:${antenna.jms.broker.port}"/>
+    <bean id="antennaServiceJmsQueueConnectionFactory"
           class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
-        <property name="targetConnectionFactory" ref="accountServiceConnectionFactory"/>
+        <property name="targetConnectionFactory" ref="antennaServiceConnectionFactory"/>
         <!--<property name="username" value="${mq.username}"/>-->
     </bean>
-    <bean id="accountCacheServiceJmsConnectionFactory"
+    <bean id="antennaServiceJmsConnectionFactory"
           class="org.springframework.jms.connection.CachingConnectionFactory">
-        <property name="targetConnectionFactory" ref="userCredentialsConnectionFactoryAdapter"/>
-        <property name="sessionCacheSize" value="10"/>
+        <property name="targetConnectionFactory" ref="antennaServiceJmsQueueConnectionFactory"/>
+        <property name="sessionCacheSize" value="50"/>
         <!--<property name="exceptionListener" ref="jmsExceptionListener"/>-->
     </bean>
 
+    <bean id="messageTopicDestination" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg value="${antenna.jms.queue.service.octopus}.message"/>
+    </bean>
+
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="antennaServiceJmsConnectionFactory"/>
+        <property name="defaultDestination" ref="messageTopicDestination"/>
+        <property name="pubSubDomain" value="true"/>
+        <!-- Value = javax.jms.DeliveryMode.PERSISTENT -->
+        <property name="deliveryMode" value="2"/>
+        <!-- Value = javax.jms.Session.CLIENT_ACKNOWLEDGE -->
+        <property name="sessionAcknowledgeMode" value="1"/>
+        <!-- Needs to be true for the deliveryMode to work -->
+        <property name="explicitQosEnabled" value="true"/>
+    </bean>
+
+
+    <!--jms-clients-->
+    <bean id="aniObjectController" class="org.springframework.jms.remoting.JmsInvokerProxyFactoryBean">
+        <property name="connectionFactory"
+                  ref="antennaServiceJmsConnectionFactory"/>
+        <property name="queueName" value="${antenna.jms.queue.service.octopus}.aniObjectController"/>
+        <property name="serviceInterface" value="com.ani.octopus.object.controller.AniObjectController"/>
+    </bean>
     <bean id="accountServiceFacade" class="org.springframework.jms.remoting.JmsInvokerProxyFactoryBean">
         <property name="connectionFactory"
-                  ref="accountCacheServiceJmsConnectionFactory"/>
-        <property name="queueName" value="${earth.jms.queue.service.octopus}.AccountServiceFacade"/>
+                  ref="antennaServiceJmsConnectionFactory"/>
+        <property name="queueName" value="${antenna.jms.queue.service.octopus}.AccountServiceFacade"/>
         <property name="serviceInterface" value="com.ani.earth.interfaces.AccountServiceFacade"/>
     </bean>
+    <bean id="accountGroupServiceFacade" class="org.springframework.jms.remoting.JmsInvokerProxyFactoryBean">
+        <property name="connectionFactory"
+                  ref="antennaServiceJmsConnectionFactory"/>
+        <property name="queueName" value="${antenna.jms.queue.service.octopus}.AccountGroupServiceFacade"/>
+        <property name="serviceInterface" value="com.ani.earth.interfaces.AccountGroupServiceFacade"/>
+    </bean>
+    <bean id="aniSMSFacade" class="org.springframework.jms.remoting.JmsInvokerProxyFactoryBean">
+        <property name="connectionFactory"
+                  ref="antennaServiceJmsConnectionFactory"/>
+        <property name="queueName" value="${antenna.jms.queue.service.octopus}.AniSMSFacade"/>
+        <property name="serviceInterface" value="com.ani.earth.interfaces.smsNotification.AniSMSFacade"/>
+    </bean>
+    <bean id="aniStubMetaService" class="org.springframework.jms.remoting.JmsInvokerProxyFactoryBean">
+        <property name="connectionFactory" ref="antennaServiceJmsConnectionFactory" />
+        <property name="queueName" value="${antenna.jms.queue.service.octopus}.aniStubMetaService" />
+        <property name="serviceInterface" value="com.ani.octopus.stub.core.service.AniStubMetaService" />
+    </bean>
+
+    <context:component-scan base-package="com.ani.octopus.antenna"/>
+    <!-- AntennaTemplate Bean -->
+    <bean id="antennaTemplate" class="com.ani.octopus.antenna.core.AntennaTemplate" />
+    <bean id="accountAccessService" class="com.ani.octopus.antenna.core.service.account.AccountAccessServiceImpl"/>
+    <bean id="shortMessageService" class="com.ani.octopus.antenna.core.service.sms.ShortMessageServiceImpl"/>
+
 
     <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"
           c:_0="10"
@@ -169,13 +223,13 @@
 
     <bean id="queryDatabaseAuthenticationHandler"
           class="org.jasig.cas.adaptors.jdbc.AniRpcQueryDataBaseAuthenticationHandler"
-          p:accountServiceFacade-ref="accountServiceFacade"
+          p:accountAccessService-ref="accountAccessService"
           p:passwordEncoder-ref="passwordEncoder"
     />
 
     <bean id="attributeRepository"
           class="org.jasig.cas.ani.account.CasRpcAccountAttributeDao">
-        <property name="accountServiceFacade" ref="accountServiceFacade"/>
+        <property name="accountAccessService" ref="accountAccessService"/>
         <property name="backingMap" ref="attrRepoBackingMap"/>
     </bean>
 
