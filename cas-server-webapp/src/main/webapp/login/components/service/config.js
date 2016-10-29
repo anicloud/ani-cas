@@ -31,9 +31,9 @@ angular.module('app.service.config',[])
                 //earthPath:'https://bj-yatsen.anicel.cn:8443/earth-web/service',
                 //submitPath:'https://bj-yatsen.anicel.cn:8443/cas/login'
 
-                casPath:'https://account.anicloud.cn:8443/cas/service',
-                earthPath:'https://account.anicloud.cn:8443/earth-web/service',
-                submitPath:'https://account.anicloud.cn:8443/cas/login'
+                casPath:'https://account.anicloud.cn/service',
+                earthPath:'https://account.anicloud.cn/earth-web/service',
+                submitPath:'https://account.anicloud.cn/login'
             }
         }
     });
