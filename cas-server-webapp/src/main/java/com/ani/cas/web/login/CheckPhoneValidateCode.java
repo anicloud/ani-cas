@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * Created by hey on 16-10-27.
  */
-public class checkPhoneValidateCode extends AbstractController {
+public class CheckPhoneValidateCode extends AbstractController {
     @Resource
     ShortMessageService shortMessageService;
     private static final Logger LOGGER = LoggerFactory.getLogger(EmailCheckController.class);

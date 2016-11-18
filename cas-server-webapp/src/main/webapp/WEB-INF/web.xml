@@ -25,16 +25,16 @@
          version="3.0">
     <display-name>Central Authentication System (CAS) 4.1.0-SNAPSHOT</display-name>
 
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>CAS</web-resource-name>
-            <url-pattern>/*</url-pattern>
-        </web-resource-collection>
+    <!--<security-constraint>-->
+        <!--<web-resource-collection>-->
+            <!--<web-resource-name>CAS</web-resource-name>-->
+            <!--<url-pattern>/*</url-pattern>-->
+        <!--</web-resource-collection>-->
 
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
+        <!--<user-data-constraint>-->
+            <!--<transport-guarantee>CONFIDENTIAL</transport-guarantee>-->
+        <!--</user-data-constraint>-->
+    <!--</security-constraint>-->
 
     <context-param>
         <param-name>isLog4jAutoInitializationDisabled</param-name>
@@ -170,6 +170,10 @@
     <servlet-mapping>
         <servlet-name>cas</servlet-name>
         <url-pattern>/service/checkPhoneValidateCode</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>cas</servlet-name>
+        <url-pattern>/service/checkEmailPassword</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

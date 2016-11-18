@@ -38,6 +38,16 @@ config(function ($httpProvider) {
                })
            })
        },
+       checkPassword:function (email,password) {
+           return $http({
+               method:'POST',
+               url:ConfigService.configObject.casPath+'/checkEmailPassword',
+               data:$.param({
+                   email:email,
+                   password:password
+               })
+           })
+       },
        loginByPassword:function (data) {
            return $http({
                method:'POST',

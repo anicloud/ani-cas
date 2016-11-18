@@ -8,7 +8,7 @@ angular.module('app.service.dataContainer',[])
             username:'',
             loginMethod:'',
             avatar:'login/images/avatar_2x.png',
-            searchPara:window.location.search,
+            searchPara:window.location.href,
             password:'anicloud',
             lt:'',
             execution:''

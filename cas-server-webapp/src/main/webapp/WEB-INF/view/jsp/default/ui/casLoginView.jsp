@@ -41,6 +41,7 @@
 <body>
 <div class="" data-ui-view=""></div>
 <div ng-controller="tokenctrl">
+    <a href="<%=request.getContextPath()%>/register"></a>
     <input type="hidden" name="lt" value="${loginTicket}" id="lt"/>
     <input type="hidden" name="execution" value="${flowExecutionKey}" id="execution"/>
 </div>

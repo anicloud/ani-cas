@@ -1,4 +1,5 @@
 /**
+/**
  * Created by zhangdongming on 16-8-29.
  */
 'use strict';
@@ -108,9 +109,14 @@ angular.module('app.view.login', ['ui.router'])
             //     execution:$scope.Data.execution,
             //     _eventId:'submit'
             // }
-            // var data=$.param(dataList);
-            // AjaxService.loginByPassword(data).then(callback);
-            $('#realForm').submit();
+            AjaxService.checkPassword($scope.Data.username,$scope.password).then(function (res) {
+                if(res.data.status.toString()==="true"){
+                    $("#realForm").submit();
+                }
+                else {
+                    $scope.loginError=true;
+                }
+            });
         }else if($scope.Data.loginMethod==='phoneNumber') {
             $('#password').val('anicloud');
             AjaxService.checkPin($scope.Data.username,$scope.pin).then(setFlagPin);

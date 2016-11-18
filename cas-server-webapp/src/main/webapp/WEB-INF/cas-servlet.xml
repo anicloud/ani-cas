@@ -122,6 +122,7 @@
         <prop key="/service/phoneCheck">phoneCheckController</prop>
         <prop key="/service/getPhoneValidateCode">getPhoneValidateCodeController</prop>
         <prop key="/service/checkPhoneValidateCode">checkPhoneValidateCodeController</prop>
+        <prop key="/service/checkEmailPassword">checkEmailPasswordController</prop>
 
         <prop key="/p3/serviceValidate">v3ServiceValidateController</prop>
         <prop key="/p3/proxyValidate">v3ProxyValidateController</prop>
@@ -292,7 +293,7 @@
 
   <bean id="logoutAction" class="org.jasig.cas.web.flow.LogoutAction"
         p:servicesManager-ref="servicesManager"
-        p:followServiceRedirects="${cas.logout.followServiceRedirects:false}"/>
+        p:followServiceRedirects="${cas.logout.followServiceRedirects:true}"/>
 
   <bean id="frontChannelLogoutAction" class="org.jasig.cas.web.flow.FrontChannelLogoutAction"
         c:logoutManager-ref="logoutManager"/>
@@ -362,7 +363,8 @@
   <bean id="emailCheckController" class="com.ani.cas.web.login.EmailCheckController"/>
   <bean id="phoneCheckController" class="com.ani.cas.web.login.PhoneCheckController"/>
   <bean id="getPhoneValidateCodeController" class="com.ani.cas.web.login.GetPhoneValidateCode"/>
-  <bean id="checkPhoneValidateCodeController" class="com.ani.cas.web.login.checkPhoneValidateCode"/>
+  <bean id="checkPhoneValidateCodeController" class="com.ani.cas.web.login.CheckPhoneValidateCode"/>
+  <bean id="checkEmailPasswordController" class="com.ani.cas.web.login.CheckEmailPassword"/>
 
   <!-- register webflow configuration -->
   <bean id="registerFlowHandlerMapping" class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping"
@@ -379,6 +381,13 @@
 
   <bean id="registerFlowUrlHandler" class="org.jasig.cas.web.flow.CasDefaultFlowUrlHandler"
         p:flowExecutionKeyParameter="RelayState" />
+
+  <bean id="modeCheckAction" class="org.jasig.cas.ani.account.ModeCheckAction"/>
+  <bean id="authenticationViaRFormAction" class="org.jasig.cas.ani.account.AuthenticationViaRFormAction"
+       p:centralAuthenticationService-ref="centralAuthenticationService"
+       p:ticketRegistry-ref="ticketRegistry"/>
+
+
 
   <webflow:flow-executor id="registerFlowExecutor" flow-registry="registerFlowRegistry">
     <webflow:flow-execution-attributes>

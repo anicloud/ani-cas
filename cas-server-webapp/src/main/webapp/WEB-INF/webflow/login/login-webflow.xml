@@ -28,6 +28,69 @@
     <on-start>
         <evaluate expression="initialFlowSetupAction"/>
     </on-start>
+    
+    
+    <action-state id="mode">
+        <evaluate expression="modeCheckAction.check(flowRequestContext)"/>
+        <transition on="rlogin" to="serviceAuthorizationCheckR"/>
+        <transition on="app" to="serviceAuthorizationCheckR"/>
+        <transition on="normal" to="ticketGrantingTicketCheck"/>
+    </action-state>
+    
+    <action-state id="serviceAuthorizationCheckR">
+        <evaluate expression="serviceAuthorizationCheck"/> 
+        <transition to="generateLoginTicketR"/>
+    </action-state>
+    
+    <action-state id="generateLoginTicketR">
+        <evaluate expression="generateLoginTicketAction.generate(flowRequestContext)"/>
+        <transition on="generated" to="modeCheckForLt" />
+    </action-state>
+    <decision-state id="modeCheckForLt">
+        <if test="flowScope.mode !=null and flowScope.mode=='rlogin'" then="rLoginTicket" else ="appLoginTicket"/>
+    </decision-state>
+    <view-state id="appLoginTicket" view="appLoginTicket" model="credential">
+        <binder>
+            <binding property="username" required="true"/>
+            <binding property="password" required="true"/>
+        </binder>
+        <on-entry>
+            <set name="viewScope.commandName" value="'credential'"/>
+        </on-entry>
+        <transition on="submit" bind="true" validate="true"
+                    to="realSubmitWithRLogin">
+            <evaluate expression="authenticationViaRFormAction.doBind(flowRequestContext,flowScope.credential)"/>
+        </transition>
+    </view-state>
+    <view-state id="rLoginTicket" view="rLoginTicket" model="credential">
+        <binder>
+            <binding property="username" required="true"/>
+            <binding property="password" required="true"/>
+        </binder>
+        <on-entry>
+            <set name="viewScope.commandName" value="'credential'"/>
+        </on-entry>
+        <transition on="submit" bind="true" validate="true"
+                    to="realSubmitWithRLogin">
+            <evaluate expression="authenticationViaRFormAction.doBind(flowRequestContext,flowScope.credential)"/>
+        </transition>
+    </view-state>
+    <action-state id="realSubmitWithRLogin">
+        <evaluate expression="authenticationViaRFormAction.submit(flowRequestContext,flowScope.credential,messageContext)"/>
+        <transition on="success" to="sendTicketGrantingTicketR"/>
+    </action-state>
+    <action-state id="sendTicketGrantingTicketR">
+        <evaluate expression="sendTicketGrantingTicketAction"/>
+        <transition on="success" to="modeCheck"/>
+    </action-state>
+    <decision-state id="modeCheck">
+        <if test="flowScope.mode!=null and flowScope.mode == 'rlogin'" then ="rLoginRes" else="appLoginRes"/>
+    </decision-state>
+    <end-state id="appLoginRes" view="appLoginRes"/>
+    <end-state id="rLoginRes" view="rLoginRes"/>
+                  
+    
+    
 
     <action-state id="ticketGrantingTicketCheck">
         <evaluate expression="ticketGrantingTicketCheckAction"/>
