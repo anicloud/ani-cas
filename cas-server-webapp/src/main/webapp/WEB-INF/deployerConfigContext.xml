@@ -209,6 +209,11 @@
         <property name="queueName" value="${antenna.jms.queue.service.octopus}.aniStubMetaService" />
         <property name="serviceInterface" value="com.ani.octopus.stub.core.service.AniStubMetaService" />
     </bean>
+    <bean id="groupJoinInvitationServiceFacade" class="org.springframework.jms.remoting.JmsInvokerProxyFactoryBean">
+        <property name="connectionFactory" ref="antennaServiceJmsConnectionFactory"/>
+        <property name="queueName" value="${antenna.jms.queue.service.octopus}.GroupJoinInvitationFacade"/>
+        <property name="serviceInterface" value="com.ani.earth.interfaces.GroupJoinInvitationServiceFacade"/>
+    </bean>
 
     <context:component-scan base-package="com.ani.octopus.antenna"/>
     <!-- AntennaTemplate Bean -->

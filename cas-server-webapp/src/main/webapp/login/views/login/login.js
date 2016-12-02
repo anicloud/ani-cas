@@ -28,13 +28,14 @@ angular.module('app.view.login', ['ui.router'])
                 controller: 'passwordCtrl'
             })
     }]).controller('loginCtrl', function ($scope,$location,DataContainer) {
-    var url=$location.url();
-    var index=url.indexOf('?');
-    if(index>-1){
-        DataContainer.searchPara=url.slice(index);
-    }else{
-        DataContainer.searchPara='';
-    }
+    // var url=$location.url();
+    // var index=url.indexOf('?');
+    // if(index>-1){
+    //     DataContainer.searchPara=url.slice(index);
+    // }else{
+    //     DataContainer.searchPara='';
+    // }
+    DataContainer.searchPara=window.location.href;
     // ConfigService.configObject.earthPath=$.i18n.prop('earth_service');
     // ConfigService.configObject.casPath=$.i18n.prop('cas_service');
     // ConfigService.configObject.staticPath='';
