@@ -19,7 +19,7 @@
 package org.jasig.cas.adaptors.jdbc;
 
 import com.ani.earth.commons.dto.AccountDto;
-import com.ani.octopus.antenna.core.service.account.AccountAccessService;
+import com.ani.earth.interfaces.AccountServiceFacade;
 import org.jasig.cas.authentication.HandlerResult;
 import org.jasig.cas.authentication.PreventedException;
 import org.jasig.cas.authentication.UsernamePasswordCredential;
@@ -42,22 +42,22 @@ import java.security.GeneralSecurityException;
  */
 public class AniRpcQueryDataBaseAuthenticationHandler extends AbstractUsernamePasswordAuthenticationHandler {
     private final static Logger LOG = LoggerFactory.getLogger(AniRpcQueryDataBaseAuthenticationHandler.class);
-    private AccountAccessService accountaccessService;
+    private AccountServiceFacade accountServiceFacade;
     private PasswordEncoder passwordEncoder = null;
 
     @Override
     protected HandlerResult authenticateUsernamePasswordInternal(UsernamePasswordCredential transformedCredential) throws GeneralSecurityException, PreventedException {
         LOG.info("call authenticateUsernamePasswordInternal, name is {}.", transformedCredential.getUsername());
-        if (accountaccessService == null || passwordEncoder == null) {
+        if (accountServiceFacade == null || passwordEncoder == null) {
             LOG.error("accountServiceFacade or passwordEncoder is null.");
            throw new NullPointerException("accountServiceFacade or passwordEncoder is null.");
         }
         AccountDto accountDto = null;
         if (PatternCheck.isEmail(transformedCredential.getUsername())) {
-            accountDto = accountaccessService.getByEmail(transformedCredential.getUsername());
+            accountDto = accountServiceFacade.getByEmail(transformedCredential.getUsername());
         }
         else if (PatternCheck.isMobile(transformedCredential.getUsername())) {
-            accountDto = accountaccessService.getByPhoneNumber(transformedCredential.getUsername());
+            accountDto = accountServiceFacade.getByPhoneNumber(transformedCredential.getUsername());
             return createHandlerResult(transformedCredential, this.principalFactory.createPrincipal(transformedCredential.getUsername()), null);
         }
 //        else {
@@ -76,8 +76,8 @@ public class AniRpcQueryDataBaseAuthenticationHandler extends AbstractUsernamePa
         return createHandlerResult(transformedCredential, this.principalFactory.createPrincipal(transformedCredential.getUsername()), null);
     }
 
-    public void setAccountAccessService(AccountAccessService accountAccessService) {
-        this.accountaccessService = accountAccessService;
+    public void setAccountServiceFacade(AccountServiceFacade accountServiceFacade) {
+        this.accountServiceFacade = accountServiceFacade;
     }
 
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {

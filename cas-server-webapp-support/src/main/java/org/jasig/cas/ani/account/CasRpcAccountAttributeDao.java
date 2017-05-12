@@ -20,7 +20,6 @@ package org.jasig.cas.ani.account;
 
 import com.ani.earth.commons.dto.AccountDto;
 import com.ani.earth.interfaces.AccountServiceFacade;
-import com.ani.octopus.antenna.core.service.account.AccountAccessService;
 import org.jasig.cas.util.PatternCheck;
 import org.jasig.services.persondir.IPersonAttributes;
 import org.jasig.services.persondir.support.AttributeNamedPersonImpl;
@@ -42,26 +41,26 @@ import java.util.Map;
  */
 public class CasRpcAccountAttributeDao extends StubPersonAttributeDao {
     private final static Logger LOG = LoggerFactory.getLogger(CasRpcAccountAttributeDao.class);
-    private AccountAccessService accountAccessService;
+    private AccountServiceFacade accountServiceFacade;
 
-    public void setAccountAccessService(AccountAccessService accountAccessService) {
-        this.accountAccessService = accountAccessService;
+    public void setAccountServiceFacade(AccountServiceFacade accountServiceFacade) {
+        this.accountServiceFacade = accountServiceFacade;
     }
 
     @Override
     public IPersonAttributes getPerson(String uid) {
         LOG.info("call getPerson, uid is {}.", uid);
-        if (accountAccessService == null) {
+        if (accountServiceFacade == null) {
             LOG.error("accountServiceFacade is null.");
             throw new NullPointerException("accountServiceFacade is null.");
         }
 
         AccountDto accountDto = null;
         if (PatternCheck.isEmail(uid)) {
-            accountDto = accountAccessService.getByEmail(uid);
+            accountDto = accountServiceFacade.getByEmail(uid);
         }
         else if (PatternCheck.isMobile(uid)) {
-            accountDto = accountAccessService.getByPhoneNumber(uid);
+            accountDto = accountServiceFacade.getByPhoneNumber(uid);
         }
 //        else {
 //            accountDto = accountAccessService.getByScreenName(uid);

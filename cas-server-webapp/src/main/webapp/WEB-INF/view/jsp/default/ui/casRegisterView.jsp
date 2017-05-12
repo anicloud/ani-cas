@@ -49,7 +49,7 @@
         <img src="images/logo.png">
     </div>
     <div class="title">
-        从这里开始, 连接世界
+        连接一切,使计算无处不在
     </div>
     <div class="login-panel">
         <form id="registerForm" method="POST" action="/register">

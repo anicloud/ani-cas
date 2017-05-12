@@ -1,7 +1,7 @@
 package com.ani.cas.web.login;
 
 import com.ani.earth.commons.dto.AccountDto;
-import com.ani.octopus.antenna.core.service.account.AccountAccessService;
+import com.ani.earth.interfaces.AccountServiceFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,7 +26,7 @@ public class CheckEmailPassword extends AbstractController{
     private final static Logger LOG = LoggerFactory.getLogger(EmailCheckController.class);
 
     @Resource
-    private AccountAccessService accountAccessService;
+    private AccountServiceFacade accountServiceFacade ;
 
 
 
@@ -38,11 +38,11 @@ public class CheckEmailPassword extends AbstractController{
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         boolean accountExist = false;
         AccountDto accountDto = null;
-        if (accountAccessService == null || passwordEncoder == null) {
+        if (accountServiceFacade == null || passwordEncoder == null) {
             LOG.error("accountServiceFacade or passwordEncoder is null.");
             throw new NullPointerException("accountServiceFacade or passwordEncoder is null.");
         }
-        accountDto = accountAccessService.getByEmail(email);
+        accountDto = accountServiceFacade.getByEmail(email);
         if (accountDto != null) {
             if (!passwordEncoder.matches(password, accountDto.password)) {
                 accountExist = false;

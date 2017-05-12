@@ -1,9 +1,8 @@
 package com.ani.cas.web.login;
 
-import com.ani.octopus.antenna.core.service.sms.ShortMessageService;
+import com.ani.earth.interfaces.smsNotification.AniSMSFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
@@ -19,11 +18,11 @@ import java.util.Map;
  */
 public class CheckPhoneValidateCode extends AbstractController {
     @Resource
-    ShortMessageService shortMessageService;
+    AniSMSFacade aniSMSFacade;
     private static final Logger LOGGER = LoggerFactory.getLogger(EmailCheckController.class);
 
     public boolean phoneCodeValidate(String code,String phone){
-        return shortMessageService.validateCode(phone,code);
+        return aniSMSFacade.validateCode(phone,code);
     }
 
 

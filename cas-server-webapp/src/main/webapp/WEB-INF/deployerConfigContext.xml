@@ -43,6 +43,7 @@
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:util="http://www.springframework.org/schema/util"
        xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
        xsi:schemaLocation="http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
@@ -51,7 +52,14 @@
        http://www.springframework.org/schema/context/spring-context-4.0.xsd
        http://www.springframework.org/schema/jms
        http://www.springframework.org/schema/jms/spring-jms-4.0.xsd
-       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://code.alibabatech.com/schema/dubbo
+       http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
 
     <!--
        | The authentication manager defines security policy for authentication by specifying at a minimum
@@ -180,46 +188,40 @@
 
 
     <!--jms-clients-->
-    <bean id="aniObjectController" class="org.springframework.jms.remoting.JmsInvokerProxyFactoryBean">
-        <property name="connectionFactory"
-                  ref="antennaServiceJmsConnectionFactory"/>
-        <property name="queueName" value="${antenna.jms.queue.service.octopus}.aniObjectController"/>
-        <property name="serviceInterface" value="com.ani.octopus.object.controller.AniObjectController"/>
-    </bean>
-    <bean id="accountServiceFacade" class="org.springframework.jms.remoting.JmsInvokerProxyFactoryBean">
-        <property name="connectionFactory"
-                  ref="antennaServiceJmsConnectionFactory"/>
-        <property name="queueName" value="${antenna.jms.queue.service.octopus}.AccountServiceFacade"/>
-        <property name="serviceInterface" value="com.ani.earth.interfaces.AccountServiceFacade"/>
-    </bean>
-    <bean id="accountGroupServiceFacade" class="org.springframework.jms.remoting.JmsInvokerProxyFactoryBean">
-        <property name="connectionFactory"
-                  ref="antennaServiceJmsConnectionFactory"/>
-        <property name="queueName" value="${antenna.jms.queue.service.octopus}.AccountGroupServiceFacade"/>
-        <property name="serviceInterface" value="com.ani.earth.interfaces.AccountGroupServiceFacade"/>
-    </bean>
-    <bean id="aniSMSFacade" class="org.springframework.jms.remoting.JmsInvokerProxyFactoryBean">
-        <property name="connectionFactory"
-                  ref="antennaServiceJmsConnectionFactory"/>
-        <property name="queueName" value="${antenna.jms.queue.service.octopus}.AniSMSFacade"/>
-        <property name="serviceInterface" value="com.ani.earth.interfaces.smsNotification.AniSMSFacade"/>
-    </bean>
-    <bean id="aniStubMetaService" class="org.springframework.jms.remoting.JmsInvokerProxyFactoryBean">
-        <property name="connectionFactory" ref="antennaServiceJmsConnectionFactory" />
-        <property name="queueName" value="${antenna.jms.queue.service.octopus}.aniStubMetaService" />
-        <property name="serviceInterface" value="com.ani.octopus.stub.core.service.AniStubMetaService" />
-    </bean>
-    <bean id="groupJoinInvitationServiceFacade" class="org.springframework.jms.remoting.JmsInvokerProxyFactoryBean">
-        <property name="connectionFactory" ref="antennaServiceJmsConnectionFactory"/>
-        <property name="queueName" value="${antenna.jms.queue.service.octopus}.GroupJoinInvitationFacade"/>
-        <property name="serviceInterface" value="com.ani.earth.interfaces.GroupJoinInvitationServiceFacade"/>
-    </bean>
-
-    <context:component-scan base-package="com.ani.octopus.antenna"/>
-    <!-- AntennaTemplate Bean -->
-    <bean id="antennaTemplate" class="com.ani.octopus.antenna.core.AntennaTemplate" />
-    <bean id="accountAccessService" class="com.ani.octopus.antenna.core.service.account.AccountAccessServiceImpl"/>
-    <bean id="shortMessageService" class="com.ani.octopus.antenna.core.service.sms.ShortMessageServiceImpl"/>
+    <!--<bean id="aniObjectController" class="org.springframework.jms.remoting.JmsInvokerProxyFactoryBean">-->
+        <!--<property name="connectionFactory"-->
+                  <!--ref="antennaServiceJmsConnectionFactory"/>-->
+        <!--<property name="queueName" value="${antenna.jms.queue.service.octopus}.aniObjectController"/>-->
+        <!--<property name="serviceInterface" value="com.ani.octopus.object.controller.AniObjectController"/>-->
+    <!--</bean>-->
+    <!--<bean id="accountServiceFacade" class="org.springframework.jms.remoting.JmsInvokerProxyFactoryBean">-->
+        <!--<property name="connectionFactory"-->
+                  <!--ref="antennaServiceJmsConnectionFactory"/>-->
+        <!--<property name="queueName" value="${antenna.jms.queue.service.octopus}.AccountServiceFacade"/>-->
+        <!--<property name="serviceInterface" value="com.ani.earth.interfaces.AccountServiceFacade"/>-->
+    <!--</bean>-->
+    <!--<bean id="accountGroupServiceFacade" class="org.springframework.jms.remoting.JmsInvokerProxyFactoryBean">-->
+        <!--<property name="connectionFactory"-->
+                  <!--ref="antennaServiceJmsConnectionFactory"/>-->
+        <!--<property name="queueName" value="${antenna.jms.queue.service.octopus}.AccountGroupServiceFacade"/>-->
+        <!--<property name="serviceInterface" value="com.ani.earth.interfaces.AccountGroupServiceFacade"/>-->
+    <!--</bean>-->
+    <!--<bean id="aniSMSFacade" class="org.springframework.jms.remoting.JmsInvokerProxyFactoryBean">-->
+        <!--<property name="connectionFactory"-->
+                  <!--ref="antennaServiceJmsConnectionFactory"/>-->
+        <!--<property name="queueName" value="${antenna.jms.queue.service.octopus}.AniSMSFacade"/>-->
+        <!--<property name="serviceInterface" value="com.ani.earth.interfaces.smsNotification.AniSMSFacade"/>-->
+    <!--</bean>-->
+    <!--<bean id="aniStubMetaService" class="org.springframework.jms.remoting.JmsInvokerProxyFactoryBean">-->
+        <!--<property name="connectionFactory" ref="antennaServiceJmsConnectionFactory" />-->
+        <!--<property name="queueName" value="${antenna.jms.queue.service.octopus}.aniStubMetaService" />-->
+        <!--<property name="serviceInterface" value="com.ani.octopus.stub.core.service.AniStubMetaService" />-->
+    <!--</bean>-->
+    <!--<bean id="groupJoinInvitationServiceFacade" class="org.springframework.jms.remoting.JmsInvokerProxyFactoryBean">-->
+        <!--<property name="connectionFactory" ref="antennaServiceJmsConnectionFactory"/>-->
+        <!--<property name="queueName" value="${antenna.jms.queue.service.octopus}.GroupJoinInvitationFacade"/>-->
+        <!--<property name="serviceInterface" value="com.ani.earth.interfaces.GroupJoinInvitationServiceFacade"/>-->
+    <!--</bean>-->
 
 
     <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"
@@ -228,13 +230,13 @@
 
     <bean id="queryDatabaseAuthenticationHandler"
           class="org.jasig.cas.adaptors.jdbc.AniRpcQueryDataBaseAuthenticationHandler"
-          p:accountAccessService-ref="accountAccessService"
+          p:accountServiceFacade-ref="accountServiceFacade"
           p:passwordEncoder-ref="passwordEncoder"
     />
 
     <bean id="attributeRepository"
           class="org.jasig.cas.ani.account.CasRpcAccountAttributeDao">
-        <property name="accountAccessService" ref="accountAccessService"/>
+        <property name="accountServiceFacade" ref="accountServiceFacade"/>
         <property name="backingMap" ref="attrRepoBackingMap"/>
     </bean>
 
@@ -287,6 +289,21 @@
             </map>
         </property>
     </bean>-->
+
+    <!-- 提供方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="${dubbo.application.name}"  />
+
+    <!-- 使用zookeeper广播注册中心暴露发现服务地址 -->
+    <dubbo:registry address="${dubbo.registry.address}" />
+
+    <!--antenna服务-->
+    <!--<dubbo:reference id="aniObjectController" interface="com.ani.octopus.object.controller.AniObjectController" check="false" />-->
+    <dubbo:reference id="accountServiceFacade" interface="com.ani.earth.interfaces.AccountServiceFacade" check="false" />
+    <dubbo:reference id="accountGroupServiceFacade" interface="com.ani.earth.interfaces.AccountGroupServiceFacade" check="false" />
+    <dubbo:reference id="groupJoinInvitationServiceFacade" interface="com.ani.earth.interfaces.GroupJoinInvitationServiceFacade" check="false" />
+    <dubbo:reference id="aniSMSFacade" interface="com.ani.earth.interfaces.smsNotification.AniSMSFacade" check="false" />
+    <!--<dubbo:reference id="aniStubMetaService" interface="com.ani.octopus.stub.core.service.AniStubMetaService" check="false" />-->
+
 
     <util:map id="attrRepoBackingMap">
         <entry key="uid" value="uid" />

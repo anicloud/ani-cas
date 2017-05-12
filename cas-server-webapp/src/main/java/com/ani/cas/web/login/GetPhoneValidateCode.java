@@ -1,6 +1,6 @@
 package com.ani.cas.web.login;
 
-import com.ani.octopus.antenna.core.service.sms.ShortMessageService;
+import com.ani.earth.interfaces.smsNotification.AniSMSFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,13 +19,13 @@ import java.util.Map;
  */
 public class GetPhoneValidateCode extends AbstractController{
     @Resource
-    ShortMessageService shortMessageService;
+    AniSMSFacade aniSMSFacade;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EmailCheckController.class);
 
     public boolean sendPhoneValidateCode(String phone){
 
-        String state =shortMessageService.registerCheckPhone(phone);
+        String state =aniSMSFacade.registerCheckPhone(phone);
         if(state.equals("0")){
             return true;
         }

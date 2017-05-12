@@ -1,7 +1,7 @@
 {
   "@class" : "org.jasig.cas.services.RegexRegisteredService",
-  "serviceId" : "^https://anicloud.cn:8443/wilddragon/.*",
+  "serviceId" : "^http://s0.drtt.bj.anicel.cn:8080/wilddragon/.*",
   "name" : "wilddragon",
-  "id" : 20000004,
+  "id" : 10000005,
   "description" : "wilddragon service"
 }

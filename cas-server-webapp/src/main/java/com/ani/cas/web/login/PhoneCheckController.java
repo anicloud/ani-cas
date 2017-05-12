@@ -1,7 +1,7 @@
 package com.ani.cas.web.login;
 
 import com.ani.earth.commons.dto.AccountDto;
-import com.ani.octopus.antenna.core.service.account.AccountAccessService;
+import com.ani.earth.interfaces.AccountServiceFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class PhoneCheckController extends AbstractController{
     @Resource
-    AccountAccessService accountAccessService;
+    AccountServiceFacade accountServiceFacade;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EmailCheckController.class);
 
@@ -31,7 +31,7 @@ public class PhoneCheckController extends AbstractController{
         ModelAndView mav = new ModelAndView();
         MappingJackson2JsonView view = new MappingJackson2JsonView();
         Map<String, Object> attributes = new HashMap<String, Object>();
-        AccountDto accountDto = accountAccessService.getByPhoneNumber(phoneNumber);
+        AccountDto accountDto = accountServiceFacade.getByPhoneNumber(phoneNumber);
         if(accountDto != null) {
             attributes.put("status", true);
             String avatarUrl = accountDto.accountInfo.photoPath;

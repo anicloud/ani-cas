@@ -35,6 +35,7 @@
           c:casCookieValueManager-ref="cookieValueManager"
           p:cookieSecure="true"
           p:cookieMaxAge="7889231"
+          p:rememberMeMaxAge="7889231"
           p:cookieName="TGC"
           p:cookiePath="/cas"/>
 
