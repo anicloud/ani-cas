@@ -27,16 +27,16 @@
                     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <bean id="characterEncodingFilter" class="org.springframework.web.filter.CharacterEncodingFilter"
-            p:encoding="${httprequest.web.encoding:UTF-8}"
-            p:forceEncoding="${httprequest.web.encoding.force:true}" />
+            p:encoding="${httprequest.web.encoding}"
+            p:forceEncoding="${httprequest.web.encoding.force}" />
 
     <bean id="requestParameterSecurityFilter"
           class="org.jasig.cas.security.RequestParameterPolicyEnforcementFilter"
-          p:allowMultiValueParameters="${cas.http.allow.multivalue.params:false}">
+          p:allowMultiValueParameters="${cas.http.allow.multivalue.params}">
         <property name="parametersToCheck">
             <bean class="org.springframework.util.StringUtils" factory-method="commaDelimitedListToSet">
                 <constructor-arg type="java.lang.String"
-                                 value="${cas.http.check.params:ticket,service,renew,gateway,warn,target,SAMLart,pgtUrl,pgt,pgtId,pgtIou,targetService,entityId}"/>
+                                 value="${cas.http.check.params}"/>
             </bean>
         </property>
         <property name="charactersToForbid">
@@ -45,7 +45,7 @@
         <property name="onlyPostParameters">
             <bean class="org.springframework.util.StringUtils" factory-method="commaDelimitedListToSet">
                 <constructor-arg type="java.lang.String"
-                                 value="${cas.http.allow.post.params:username,password}"/>
+                                 value="${cas.http.allow.post.params}"/>
             </bean>
         </property>
     </bean>

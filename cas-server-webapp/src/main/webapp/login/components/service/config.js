@@ -19,22 +19,22 @@ angular.module('app.service.config',[])
             },
             configObject:{
 
-                //casPath:'http://localhost:8082/cas/service',
-                //earthPath:'https://s0.drtt.bj.anicel.cn:8443/earth-web/service',
-                //earthPath:'http://localhost:8085/earth-web/service',
-                //submitPath:'http://localhost:8082/cas/login'
+               //  casPath:'https://xiaojiang.com.cn:8443/cas/service',
+               //  earthPath:'https://s0.drtt.bj.anicel.cn:8443/earth-web/service',
+               // // earthPath:'http://localhost:8085/earth-web/service',
+               //  submitPath:'http://xiaojiang.com.cn:8443/cas/login'
 
-                //casPath:'https://s0.drtt.bj.anicel.cn:8443/cas/service',
-                //earthPath:'https://s0.drtt.bj.anicel.cn:8443/earth-web/service',
-                //submitPath:'https://s0.drtt.bj.anicel.cn:8443/cas/login'
+                casPath:'https://s0.drtt.bj.anicel.cn:8443/cas/service',
+                earthPath:'https://s0.drtt.bj.anicel.cn:8443/earth-web/service',
+                submitPath:'https://s0.drtt.bj.anicel.cn:8443/cas/login'
 
                 //casPath:'https://bj-yatsen.anicel.cn:8443/cas/service',
                 //earthPath:'https://bj-yatsen.anicel.cn:8443/earth-web/service',
                 //submitPath:'https://bj-yatsen.anicel.cn:8443/cas/login'
 
-                casPath:'https://account.anicloud.cn/service',
-                earthPath:'https://account.anicloud.cn/earth-web/service',
-                submitPath:'https://account.anicloud.cn/login'
+                // casPath:'https://account.anicloud.cn/service',
+                // earthPath:'https://account.anicloud.cn/earth-web/service',
+                // submitPath:'https://account.anicloud.cn/login'
             }
         }
     });

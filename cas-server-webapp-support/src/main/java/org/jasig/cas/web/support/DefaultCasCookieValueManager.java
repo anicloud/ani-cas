@@ -105,11 +105,11 @@ public final class DefaultCasCookieValueManager implements CookieValueManager {
                 || StringUtils.isBlank(userAgent)) {
             throw new IllegalStateException("Invalid cookie. Required fields are empty");
         }
-
-        if (!remoteAddr.equals(request.getRemoteAddr())) {
-            throw new IllegalStateException("Invalid cookie. Required remote address does not match "
-                    + request.getRemoteAddr());
-        }
+//
+//        if (!remoteAddr.equals(request.getRemoteAddr())) {
+//            throw new IllegalStateException("Invalid cookie. Required remote address does not match "
+//                    + request.getRemoteAddr());
+//        }
 
         if (!userAgent.equals(request.getHeader("user-agent"))) {
             throw new IllegalStateException("Invalid cookie. Required user-agent does not match "
